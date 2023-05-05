@@ -6,6 +6,7 @@ vid= cv2.VideoCapture(0)
 fd = cv2.CascadeClassifier(cv2.data.haarcascades+'haarcascade_frontalface_default.xml')
 sd= cv2.CascadeClassifier(cv2.data.haarcascades+'haarcascade_smile.xml')
 notCaptured = True
+seq =0
 while notCaptured:
     flag , img = vid.read()
     if flag:
@@ -30,16 +31,19 @@ while notCaptured:
             print(len(smiles))
             
             if len(smiles)==1:
-                cv2.imwrite('myselfie.png',img)
-                notCaptured = False
-                break
+                seq+=1
+                if seq==8:
+                    cv2.imwrite('myselfie.png',img)
+                    notCaptured = False
+                    break
+                 
+            else:
+                seq=0
 
 
             cv2.rectangle(img,pt1=(x,y), pt2=(x+w,y+h), color=colors[i]
                           ,thickness=5)   
             i+=1
-
-       
                 
        
         cv2.imshow('Preview',img)
